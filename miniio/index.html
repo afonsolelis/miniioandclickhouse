@@ -1,0 +1,787 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../clickhouse/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
+    
+    
+      
+        <title>Mini.IO - Tutorial de CLickhouse</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#miniio" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Tutorial de CLickhouse" class="md-header__button md-logo" aria-label="Tutorial de CLickhouse" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tutorial de CLickhouse
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Mini.IO
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Tutorial de CLickhouse" class="md-nav__button md-logo" aria-label="Tutorial de CLickhouse" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Tutorial de CLickhouse
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Menu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clickhouse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ClickHouse
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Mini.IO
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Mini.IO
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requisitos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passos-para-configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Passos para Configuração
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Passos para Configuração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-baixar-a-imagem-do-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Baixar a Imagem do MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-executar-o-container-do-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Executar o Container do MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verificar-o-container-em-execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Verificar o Container em Execução
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-acessar-o-console-do-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Acessar o Console do MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-instalar-o-minio-client-mc-no-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Instalar o MinIO Client (mc) no PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-configurar-o-minio-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Configurar o MinIO Client
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-criar-um-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Criar um Bucket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-enviar-arquivos-csv-com-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Enviar Arquivos CSV com Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-codigo-python-para-enviar-arquivo-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Código Python para Enviar Arquivo CSV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-executar-o-codigo-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Executar o Código Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-verificar-o-arquivo-no-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Verificar o Arquivo no MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-de-volume-persistente-opcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração de Volume Persistente (Opcional)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusão
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requisitos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passos-para-configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Passos para Configuração
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Passos para Configuração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-baixar-a-imagem-do-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Baixar a Imagem do MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-executar-o-container-do-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Executar o Container do MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verificar-o-container-em-execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Verificar o Container em Execução
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-acessar-o-console-do-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Acessar o Console do MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-instalar-o-minio-client-mc-no-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Instalar o MinIO Client (mc) no PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-configurar-o-minio-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Configurar o MinIO Client
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-criar-um-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Criar um Bucket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-enviar-arquivos-csv-com-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Enviar Arquivos CSV com Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-codigo-python-para-enviar-arquivo-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Código Python para Enviar Arquivo CSV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-executar-o-codigo-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Executar o Código Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-verificar-o-arquivo-no-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Verificar o Arquivo no MinIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-de-volume-persistente-opcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração de Volume Persistente (Opcional)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusão
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="miniio">Mini.IO</h1>
+<p><img alt="miniio-logo" src="https://infraops.info/content/images/2020/12/minio-logo.png" /></p>
+<h2 id="introducao">Introdução</h2>
+<p>MinIO é um armazenamento de objetos de alta performance compatível com Amazon S3, ideal para armazenamento de grandes volumes de dados. Este guia mostra como configurar e utilizar o MinIO localmente utilizando Docker e enviar arquivos CSV utilizando Python.</p>
+<h2 id="pre-requisitos">Pré-requisitos</h2>
+<ul>
+<li>Docker instalado em sua máquina. Se você ainda não tem o Docker instalado, siga as instruções no <a href="https://docs.docker.com/get-docker/">site oficial do Docker</a>.</li>
+<li>Python instalado em sua máquina. Se você ainda não tem o Python instalado, siga as instruções no <a href="https://www.python.org/downloads/">site oficial do Python</a>.</li>
+</ul>
+<h2 id="passos-para-configuracao">Passos para Configuração</h2>
+<h3 id="1-baixar-a-imagem-do-minio">1. Baixar a Imagem do MinIO</h3>
+<p>Primeiramente, baixe a imagem do MinIO do Docker Hub utilizando o seguinte comando:</p>
+<pre><code class="language-bash">docker pull minio/minio
+</code></pre>
+<h3 id="2-executar-o-container-do-minio">2. Executar o Container do MinIO</h3>
+<p>Após baixar a imagem, você pode executar um container do MinIO com o comando:</p>
+<pre><code class="language-bash">docker run -d --name minio-server -p 9000:9000 -p 9001:9001 -e &quot;MINIO_ROOT_USER=admin&quot; -e &quot;MINIO_ROOT_PASSWORD=password123&quot; minio/minio server /data --console-address &quot;:9001&quot;
+</code></pre>
+<p>Substitua <code>admin</code> e <code>password123</code> pelos valores desejados para o usuário root e a senha.</p>
+<h3 id="3-verificar-o-container-em-execucao">3. Verificar o Container em Execução</h3>
+<p>Para verificar se o container está em execução, utilize o comando:</p>
+<pre><code class="language-bash">docker ps
+</code></pre>
+<p>Você deve ver algo similar a isso:</p>
+<pre><code>CONTAINER ID   IMAGE                   COMMAND                  CREATED        STATUS        PORTS                                           NAMES
+&lt;container_id&gt; minio/minio             &quot;/usr/bin/docker-ent…&quot;   &lt;some_time&gt;    Up &lt;some_time&gt;   0.0.0.0:9000-&gt;9000/tcp, 0.0.0.0:9001-&gt;9001/tcp  minio-server
+</code></pre>
+<h3 id="4-acessar-o-console-do-minio">4. Acessar o Console do MinIO</h3>
+<p>Abra seu navegador e acesse o console do MinIO através do endereço:</p>
+<pre><code>http://localhost:9001
+</code></pre>
+<p>Entre com o usuário e senha que você configurou (<code>admin</code> e <code>password123</code> no exemplo acima).</p>
+<h3 id="5-instalar-o-minio-client-mc-no-powershell">5. Instalar o MinIO Client (mc) no PowerShell</h3>
+<p>Para instalar o <code>mc</code> (MinIO Client) no Windows usando PowerShell, siga os seguintes passos:</p>
+<ol>
+<li><strong>Baixar o MinIO Client:</strong></li>
+</ol>
+<p>Abra o PowerShell e execute o seguinte comando para baixar o <code>mc</code>:</p>
+<p><code>powershell
+   Invoke-WebRequest -Uri https://dl.min.io/client/mc/release/windows-amd64/mc.exe -OutFile mc.exe</code></p>
+<ol>
+<li><strong>Mover o Executável para um Local no PATH:</strong></li>
+</ol>
+<p>Para facilitar o uso, mova o executável <code>mc.exe</code> para um diretório incluído na variável de ambiente <code>PATH</code>. Por exemplo:</p>
+<p><code>powershell
+   Move-Item -Path .\mc.exe -Destination "C:\Program Files\mc.exe"</code></p>
+<p>Adicione <code>"C:\Program Files\"</code> ao <code>PATH</code> se ainda não estiver lá. Você pode fazer isso através das Configurações do Sistema -&gt; Variáveis de Ambiente, ou via PowerShell:</p>
+<p>```powershell</p>
+<p>```</p>
+<h3 id="6-configurar-o-minio-client">6. Configurar o MinIO Client</h3>
+<p>Após instalar o <code>mc</code>, configure-o para conectar ao seu servidor MinIO local:</p>
+<pre><code class="language-powershell">mc alias set local http://localhost:9000 admin password123
+</code></pre>
+<h3 id="7-criar-um-bucket">7. Criar um Bucket</h3>
+<p>Para criar um bucket, utilize o comando:</p>
+<pre><code class="language-powershell">mc mb local/meu-bucket
+</code></pre>
+<h3 id="8-enviar-arquivos-csv-com-python">8. Enviar Arquivos CSV com Python</h3>
+<p>Primeiro, instale o pacote <code>minio</code> utilizando pip:</p>
+<pre><code class="language-bash">pip install minio
+</code></pre>
+<h3 id="9-codigo-python-para-enviar-arquivo-csv">9. Código Python para Enviar Arquivo CSV</h3>
+<p>Aqui está um exemplo de código Python para enviar um arquivo CSV para o MinIO:</p>
+<pre><code class="language-python">from minio import Minio
+from minio.error import S3Error
+import os
+
+# Configurar o cliente MinIO
+client = Minio(
+    &quot;localhost:9000&quot;,
+    access_key=&quot;admin&quot;,
+    secret_key=&quot;password123&quot;,
+    secure=False
+)
+
+# Nome do bucket e do arquivo
+bucket_name = &quot;meu-bucket&quot;
+file_path = &quot;exemplo.csv&quot;
+object_name = os.path.basename(file_path)
+
+# Criar um arquivo CSV de exemplo
+with open(file_path, 'w') as f:
+    f.write(&quot;id,nome\n&quot;)
+    f.write(&quot;1,Alice\n&quot;)
+    f.write(&quot;2,Bob\n&quot;)
+
+# Enviar o arquivo CSV para o MinIO
+try:
+    client.fput_object(bucket_name, object_name, file_path)
+    print(f&quot;{object_name} enviado com sucesso para {bucket_name}.&quot;)
+except S3Error as e:
+    print(&quot;Erro ao enviar o arquivo:&quot;, e)
+</code></pre>
+<h3 id="10-executar-o-codigo-python">10. Executar o Código Python</h3>
+<p>Salve o código acima em um arquivo Python, por exemplo, <code>upload_csv.py</code>, e execute-o:</p>
+<pre><code class="language-bash">python upload_csv.py
+</code></pre>
+<p>Você verá uma mensagem confirmando que o arquivo foi enviado com sucesso para o bucket especificado no MinIO.</p>
+<h3 id="11-verificar-o-arquivo-no-minio">11. Verificar o Arquivo no MinIO</h3>
+<p>Acesse o console do MinIO em <code>http://localhost:9001</code>, navegue até o bucket <code>meu-bucket</code> e verifique se o arquivo <code>exemplo.csv</code> está presente.</p>
+<h3 id="configuracao-de-volume-persistente-opcional">Configuração de Volume Persistente (Opcional)</h3>
+<p>Para garantir que seus dados persistam mesmo após reiniciar o container, você pode configurar volumes do Docker:</p>
+<pre><code class="language-bash">docker run -d --name minio-server -p 9000:9000 -p 9001:9001 -e &quot;MINIO_ROOT_USER=admin&quot; -e &quot;MINIO_ROOT_PASSWORD=password123&quot; -v /path/to/minio/data:/data minio/minio server /data --console-address &quot;:9001&quot;
+</code></pre>
+<p>Substitua <code>/path/to/minio/data</code> pelo caminho onde você deseja armazenar os dados do MinIO em sua máquina local.</p>
+<h3 id="conclusao">Conclusão</h3>
+<p>Com esses passos, você pode facilmente configurar e utilizar o MinIO localmente utilizando Docker e enviar arquivos CSV utilizando Python. Essa configuração facilita o desenvolvimento e a realização de testes com o MinIO sem a necessidade de configuração complexa.</p>
+<p>Se você tiver alguma dúvida ou problema, consulte a <a href="https://docs.min.io/">documentação oficial do MinIO</a> para obter mais detalhes e suporte.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      
+    
+  </body>
+</html>
