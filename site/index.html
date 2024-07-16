@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Tutorial de CLickhouse</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">Tutorial de CLickhouse</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#utilizando-clickhouse-com-docker-localmente" class="nav-link">Utilizando ClickHouse com Docker Localmente</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#pre-requisitos" class="nav-link">Pré-requisitos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#passos-para-configuracao" class="nav-link">Passos para Configuração</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#configuracao-de-volume-persistente-opcional" class="nav-link">Configuração de Volume Persistente (Opcional)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#mais" class="nav-link">Mais</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#entendendo-o-clickhouse-e-comparacoes-com-google-bigquery" class="nav-link">Entendendo o ClickHouse e Comparações com Google BigQuery</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#como-o-clickhouse-funciona" class="nav-link">Como o ClickHouse Funciona</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#comparacao-com-google-bigquery" class="nav-link">Comparação com Google BigQuery</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#conclusao" class="nav-link">Conclusão</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="utilizando-clickhouse-com-docker-localmente">Utilizando ClickHouse com Docker Localmente</h1>
+<p>ClickHouse é um sistema de gerenciamento de banco de dados em colunas que permite consultas analíticas rápidas e eficientes em grandes volumes de dados. Utilizar o ClickHouse com Docker facilita a configuração e o gerenciamento de instâncias do banco de dados. Este guia irá mostrar como configurar e utilizar o ClickHouse localmente utilizando Docker.</p>
+<h2 id="pre-requisitos">Pré-requisitos</h2>
+<ul>
+<li>Docker instalado em sua máquina. Se você ainda não tem o Docker instalado, siga as instruções no <a href="https://docs.docker.com/get-docker/">site oficial do Docker</a>.</li>
+</ul>
+<h2 id="passos-para-configuracao">Passos para Configuração</h2>
+<h3 id="1-baixar-a-imagem-do-clickhouse">1. Baixar a Imagem do ClickHouse</h3>
+<p>Primeiramente, baixe a imagem do ClickHouse do Docker Hub utilizando o seguinte comando:</p>
+<pre><code class="language-bash">docker pull yandex/clickhouse-server
+</code></pre>
+<h3 id="2-executar-o-container-do-clickhouse">2. Executar o Container do ClickHouse</h3>
+<p>Após baixar a imagem, você pode executar um container do ClickHouse com o comando:</p>
+<pre><code class="language-bash">docker run -d --name clickhouse-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 yandex/clickhouse-server
+</code></pre>
+<h3 id="3-verificar-o-container-em-execucao">3. Verificar o Container em Execução</h3>
+<p>Para verificar se o container está em execução, utilize o comando:</p>
+<pre><code class="language-bash">docker ps
+</code></pre>
+<p>Você deve ver algo similar a isso:</p>
+<pre><code>CONTAINER ID   IMAGE                   COMMAND                 CREATED        STATUS        PORTS                                           NAMES
+&lt;container_id&gt; yandex/clickhouse-server &quot;/entrypoint.sh&quot;   &lt;some_time&gt;    Up &lt;some_time&gt;   8123/tcp, 9000/tcp, 9009/tcp                    clickhouse-server
+</code></pre>
+<h3 id="4-acessar-o-clickhouse-client">4. Acessar o ClickHouse Client</h3>
+<p>Para acessar o client do ClickHouse, execute um novo container interativo ligado ao container do ClickHouse server:</p>
+<pre><code class="language-bash">docker run -it --link clickhouse-server:clickhouse-server yandex/clickhouse-client --host clickhouse-server
+</code></pre>
+<h3 id="5-executar-consultas-sql">5. Executar Consultas SQL</h3>
+<p>Agora você pode executar comandos SQL no ClickHouse. Por exemplo, para criar uma tabela e inserir dados:</p>
+<pre><code class="language-sql">CREATE TABLE exemplo (
+    id UInt32,
+    nome String
+) ENGINE = Log;
+
+INSERT INTO exemplo VALUES (1, 'Alice'), (2, 'Bob');
+
+SELECT * FROM exemplo;
+</code></pre>
+<h3 id="6-parar-e-remover-o-container">6. Parar e Remover o Container</h3>
+<p>Para parar o container do ClickHouse:</p>
+<pre><code class="language-bash">docker stop clickhouse-server
+</code></pre>
+<p>Para remover o container:</p>
+<pre><code class="language-bash">docker rm clickhouse-server
+</code></pre>
+<h2 id="configuracao-de-volume-persistente-opcional">Configuração de Volume Persistente (Opcional)</h2>
+<p>Para garantir que seus dados persistam mesmo após reiniciar o container, você pode configurar volumes do Docker:</p>
+<pre><code class="language-bash">docker run -d --name clickhouse-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 -v /path/to/clickhouse/data:/var/lib/clickhouse yandex/clickhouse-server
+</code></pre>
+<p>Substitua <code>/path/to/clickhouse/data</code> pelo caminho onde você deseja armazenar os dados do ClickHouse em sua máquina local.</p>
+<h2 id="mais">Mais</h2>
+<p>Com esses passos, você pode facilmente configurar e utilizar o ClickHouse localmente utilizando Docker. Essa configuração facilita o desenvolvimento e a realização de testes com o ClickHouse sem a necessidade de configuração complexa.</p>
+<p>Se você tiver alguma dúvida ou problema, consulte a <a href="https://clickhouse.com/docs/">documentação oficial do ClickHouse</a> para obter mais detalhes e suporte.</p>
+<h1 id="entendendo-o-clickhouse-e-comparacoes-com-google-bigquery">Entendendo o ClickHouse e Comparações com Google BigQuery</h1>
+<h2 id="como-o-clickhouse-funciona">Como o ClickHouse Funciona</h2>
+<p>ClickHouse é um banco de dados orientado a colunas, projetado para processamento de consultas analíticas em alta velocidade. Aqui estão alguns dos principais conceitos e funcionalidades que explicam seu funcionamento:</p>
+<h3 id="1-armazenamento-em-colunas">1. Armazenamento em Colunas</h3>
+<p>Diferente dos bancos de dados tradicionais que armazenam dados em linhas, o ClickHouse armazena dados em colunas. Isso permite que consultas que precisam acessar apenas algumas colunas possam ler menos dados, resultando em maior velocidade.</p>
+<h3 id="2-engine-de-armazenamento">2. Engine de Armazenamento</h3>
+<p>ClickHouse utiliza diferentes engines de armazenamento para diferentes casos de uso. A engine mais comum é a <code>MergeTree</code>, que oferece alta performance em leitura e escrita, além de suporte a partições e índices.</p>
+<h3 id="3-mergetree">3. MergeTree</h3>
+<p><code>MergeTree</code> é a engine de armazenamento mais usada no ClickHouse, oferecendo recursos como:
+- <strong>Particionamento</strong>: Divisão de dados em partes menores, facilitando a manutenção e o gerenciamento.
+- <strong>Ordenação</strong>: Dados podem ser ordenados por uma chave específica, melhorando a performance de consultas.
+- <strong>Replicação</strong>: Suporte a replicação para alta disponibilidade.</p>
+<h3 id="4-maptree">4. MapTree</h3>
+<p><code>MapTree</code> é uma variante da <code>MergeTree</code> que permite armazenar dados em uma estrutura hierárquica. É útil para armazenar dados que naturalmente formam uma árvore, como categorias de produtos ou estruturas organizacionais.</p>
+<h3 id="5-consulta-distribuida">5. Consulta Distribuída</h3>
+<p>ClickHouse suporta execução de consultas distribuídas em vários servidores, permitindo escalabilidade horizontal. Isso significa que você pode aumentar a capacidade de processamento adicionando mais nós ao cluster.</p>
+<h3 id="6-compressao">6. Compressão</h3>
+<p>ClickHouse utiliza compressão avançada de dados para reduzir o espaço em disco e melhorar a performance de leitura. Os algoritmos de compressão são selecionados automaticamente com base no tipo de dados.</p>
+<h2 id="comparacao-com-google-bigquery">Comparação com Google BigQuery</h2>
+<h3 id="1-armazenamento-de-dados">1. Armazenamento de Dados</h3>
+<ul>
+<li><strong>ClickHouse</strong>: Armazenamento em colunas com compressão avançada, otimizado para consultas analíticas rápidas.</li>
+<li><strong>BigQuery</strong>: Armazenamento em colunas com arquitetura serverless, escalando automaticamente conforme necessário.</li>
+</ul>
+<h3 id="2-escalabilidade">2. Escalabilidade</h3>
+<ul>
+<li><strong>ClickHouse</strong>: Escalabilidade horizontal através de execução distribuída e replicação.</li>
+<li><strong>BigQuery</strong>: Escalabilidade automática e gerenciamento de recursos feito pelo Google, eliminando a necessidade de administração manual.</li>
+</ul>
+<h3 id="3-performance-de-consulta">3. Performance de Consulta</h3>
+<ul>
+<li><strong>ClickHouse</strong>: Excelente performance em consultas analíticas devido ao armazenamento em colunas e compressão eficiente. Requer configuração e ajuste manual para otimização.</li>
+<li><strong>BigQuery</strong>: Performance de consulta robusta e ajustada automaticamente pelo Google, facilitando o uso para grandes volumes de dados sem necessidade de configuração detalhada.</li>
+</ul>
+<h3 id="4-custos">4. Custos</h3>
+<ul>
+<li><strong>ClickHouse</strong>: Custos variam conforme a infraestrutura usada (nós, armazenamento, etc.). Pode ser mais econômico para uso constante e de longo prazo.</li>
+<li><strong>BigQuery</strong>: Modelo de cobrança baseado em consulta e armazenamento, adequado para cargas de trabalho variáveis e escaláveis.</li>
+</ul>
+<h3 id="5-facilidade-de-uso">5. Facilidade de Uso</h3>
+<ul>
+<li><strong>ClickHouse</strong>: Requer conhecimentos técnicos para configuração e manutenção, mas oferece grande flexibilidade e controle.</li>
+<li><strong>BigQuery</strong>: Interface amigável e integração com outros serviços Google Cloud, ideal para usuários que preferem um ambiente gerenciado.</li>
+</ul>
+<h3 id="6-casos-de-uso">6. Casos de Uso</h3>
+<ul>
+<li><strong>ClickHouse</strong>: Ideal para empresas que precisam de um sistema de banco de dados analítico interno, com grande controle sobre a configuração e otimização.</li>
+<li><strong>BigQuery</strong>: Adequado para empresas que preferem um serviço gerenciado com escalabilidade automática, integração com outras ferramentas Google Cloud e menos sobrecarga de administração.</li>
+</ul>
+<h2 id="conclusao">Conclusão</h2>
+<p>ClickHouse e Google BigQuery são poderosas soluções de banco de dados analíticos, cada uma com suas vantagens e desvantagens. A escolha entre os dois dependerá das necessidades específicas de sua organização, orçamento, e preferências de gerenciamento de infraestrutura.</p>
+<ul>
+<li><strong>ClickHouse</strong>: Ótimo para controle detalhado e alta performance em um ambiente de servidor gerenciado por você.</li>
+<li><strong>BigQuery</strong>: Excelente para simplicidade, escalabilidade automática e integração com o ecossistema Google Cloud.</li>
+</ul>
+<p>Se você está buscando flexibilidade e performance em seu próprio ambiente, o ClickHouse pode ser a escolha certa. Se você prefere um serviço gerenciado que cuide da escalabilidade e manutenção, o BigQuery é uma excelente opção.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.0
+Build Date UTC : 2024-07-16 18:41:19.196770+00:00
+-->
